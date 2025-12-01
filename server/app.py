@@ -5,12 +5,12 @@ from .extensions import  migrate
 #create flask app instance
 app=Flask(__name__)
 
-#set configuration in app
+#set app's configuration settings from Config
 app.config.from_object(Config)
 
-#configure db with app
+#integrate db with app
 db.init_app(app)
-#configure migrate with app and db
+#intergrate migrate with app and db
 migrate.init_app(db=db,app=app)
 
 # Run flask app 
