@@ -11,3 +11,4 @@ class Role(db.Model):
     # define pythonic relationships
     #name of the model , back_populates ,
     permissions=relationship("Permission",back_populates="roles",secondary="role_permissions")
+

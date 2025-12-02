@@ -1,7 +1,9 @@
-from sqlalchemy import Table, Column ,Integer, ForeignKey
-role_permissions=Table(
+from .database_extensions import db
+# from .role import Role
+# from .permission import Permission
+role_permissions=db.Table(
     "role_permissions",#table name manually , no class mapping
     #column name , column data type , constraints
-    Column("role_id",Integer ,ForeignKey("roles.id"), primary_key=True),
-    Column("permission_id",Integer ,ForeignKey("permissions.id"),primary_key=True)
+    db.Column("role_id",db.Integer ,db.ForeignKey("role.id"), primary_key=True),
+    db.Column("permission_id",db.Integer ,db.ForeignKey("permission.id"),primary_key=True)
 )
