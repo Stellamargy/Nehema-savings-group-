@@ -3,6 +3,7 @@ from sqlalchemy import Column,Integer,String,Text
 from sqlalchemy.orm import relationship
 
 class Role(db.Model):
+    
     #data type , constraints
     id=Column(Integer,primary_key=True)
     name=Column(String,nullable=False)

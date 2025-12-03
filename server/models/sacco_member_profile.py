@@ -13,4 +13,4 @@ class SaccoMemberProfile(db.Model):
     # savings_balance = db.Column(db.Float, default=0.0)
 
     #Define Relationships
-    user=relationship('User', back_populates="sacco_member_profile",secondary="user",uselist=False)
+    user=relationship('User', back_populates="sacco_member_profile",secondary="users",uselist=False)

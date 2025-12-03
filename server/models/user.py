@@ -3,6 +3,7 @@ from sqlalchemy import Column , Integer ,String,Boolean
 from sqlalchemy.orm import relationship
 
 class User(db.Model):
+    __tablename__="users"
     id = Column(Integer, primary_key=True)
     first_name = Column(String(120), nullable=False)
     last_name = Column(String(120), nullable=False)
@@ -14,10 +15,19 @@ class User(db.Model):
 
      #Define Relationships
     sacco_member_profile=relationship(
-        'User', 
+        'SaccoMemberProfile', 
         back_populates="user",
         secondary="sacco_member_profiles",
         uselist=False,
         cascade="all, delete-orphan"
 
+        )
+    
+
+    administrator_profile = relationship(
+        "AdministratorProfile", 
+        back_populates="user",
+        secondary="administrator_profiles",
+        uselist=False,
+        cascade="all, delete-orphan"
         )
