@@ -3,6 +3,8 @@ from .permission import Permission
 from .role import Role
 from .role_permissions import role_permissions
 from  .user import User
+from .sacco_member_profile import SaccoMemberProfile
+
 
 
 
