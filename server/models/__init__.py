@@ -5,6 +5,7 @@ from .role_permissions import role_permissions
 from  .user import User
 from .sacco_member_profile import SaccoMemberProfile
 from .user_role import user_roles
+from .administrator_profile import AdministratorProfile
 
 
 
