@@ -5,13 +5,13 @@ from sqlalchemy.orm import relationship
 class User(db.Model):
     __tablename__="users"
     id = Column(Integer, primary_key=True)
-    first_name = Column(String(120), nullable=False)
-    last_name = Column(String(120), nullable=False)
-    email = Column(String(255), unique=True, nullable=False)
-    phone = Column(String(50), unique=True, nullable=False)
+    first_name = Column(String(50), nullable=False)
+    last_name = Column(String(50), nullable=False)
+    email = Column(String(50), unique=True, nullable=False)
+    phone = Column(String(13), unique=True, nullable=False)
     id_number=Column(Integer,unique=True,nullable=False)
-    password = Column(String(255), nullable=False)
-    active=Column(Boolean,nullable=False,default=True)
+    password = Column(String(15), nullable=False)
+    active=Column(Boolean,nullable=False,default=False)
 
      #Define Relationships
     sacco_member_profile=relationship(

@@ -8,4 +8,9 @@ class Permission(db.Model):
     description=Column(Text,nullable=False)
 
     #pythonic relationship
-    roles=relationship("Role",back_populates="permissions",secondary="role_permissions")
+    roles=relationship(
+        "Role",
+        back_populates="permissions",
+        secondary="role_permissions",
+       
+        )
