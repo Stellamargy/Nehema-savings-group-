@@ -1,47 +1,84 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from ..models import User,db
-from marshmallow import fields,ValidationError,validate
-
-
+from ..models import User, db
+from marshmallow import fields, ValidationError, validate, validates
+import re
 
 
 class UserSchema(SQLAlchemyAutoSchema):
+
     class Meta:
-        model=User
-        load_instance=True
-        #serialization
-        include_relationships=True
-        sqla_session=db.session
+        model = User
+        load_instance = True
+        include_relationships = True
+        sqla_session = db.session
 
-    #  __tablename__="users"
-    # id = Column(Integer, primary_key=True)
-    # first_name = Column(String(50), nullable=False)
-    # last_name = Column(String(50), nullable=False)
-    # email = Column(String(50), unique=True, nullable=False)
-    # phone = Column(String(13), unique=True, nullable=False)
-    # id_number=Column(Integer,unique=True,nullable=False)
-    # password = Column(String(15), nullable=False)
-    # active=Column(Boolean,nullable=False,default=False)
-    #Validation 
-    first_name=fields.String(required=True,validate=validate.Length(min=3,max=50))
-    last_name=fields.String(required=True,validate=validate.Length(min=3,max=50))
-    #unique
-    email=fields.Email(required=True,validate=validate.Length(min=10,max=50))
-    #unique and how does a real phone number look like
-    phone=fields.String(required=True,validate=validate.Length(equal=13))
-    #unique id number
-    id_number=fields.String(required=True,validate=validate.Length(min=8,max=14))
-    #how does a secure password look like ?
-    password=fields.String(required=True,validate=validate.Length(min=6,max=15))
-    active=fields.Boolean(required=True,load_default=False)
+    # Field validation
+    first_name = fields.String(required=True, validate=validate.Length(min=3, max=50))
+    last_name = fields.String(required=True, validate=validate.Length(min=3, max=50))
+    email = fields.Email(required=True, validate=validate.Length(min=10, max=50))
+    phone = fields.String(required=True)
+    id_number = fields.String(required=True, validate=validate.Length(min=8, max=14))
+    password = fields.String(required=True, validate=validate.Length(min=6, max=15))
+    active = fields.Boolean(load_default=False)
 
-    #custom validation 
-    #unique email 
+    # Precompiled regex patterns
+    PHONE_REGEX = re.compile(r'^(?:\+?254|0)(7\d{8}|1\d{8})$')
+    PASSWORD_REGEX = re.compile(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{6,15}$')
+
+    @staticmethod
+    def is_phone_valid(number):
+        return bool(UserSchema.PHONE_REGEX.match(number))
+
+    @staticmethod
+    def is_password_strong(password):
+        return bool(UserSchema.PASSWORD_REGEX.match(password))
+
     @validates("email")
-    def unique_email(self,value):
-        email=User.query.filter_by(email=value).first()
+    def unique_email(self, value,**kwargs):
+        email = User.query.filter_by(email=value).first()
         if email:
-            raise ValidationError("Email already exist")
+            raise ValidationError("Email already exists")
+
+    @validates("phone")
+    def validate_phone(self, value,**kwargs):
+        # Uniqueness
+        existing = User.query.filter_by(phone=value).first()
+        if existing:
+            raise ValidationError("Phone number already exists")
+
+        # Format
+        if not self.is_phone_valid(value):
+            raise ValidationError("Phone number should be a valid Kenyan phone number")
+
+    @validates("id_number")
+    def unique_id_number(self, value,**kwargs):
+        existing = User.query.filter_by(id_number=value).first()
+        if existing:
+            raise ValidationError("ID number already exists")
+
+    @validates("password")
+    def validate_password(self, value,**kwargs):
+        if not self.is_password_strong(value):
+            raise ValidationError(
+                "Password must be 6–15 characters and include at least one uppercase letter, "
+                "one lowercase letter, one digit, and one special character."
+            )
+
+
+ 
     
 
+valid_data = {
+    "first_name": "Stella",
+    "last_name": "Margy",
+    "email": "stella.margy@example.com",
+    "phone": "7712345678",
+    "id_number": "12345678",
+    "password": "trongss1",
+    "active": False
+}
 
+from ..app import app
+with app.app_context():
+    user_schema=UserSchema().load(valid_data)
+    print(user_schema)

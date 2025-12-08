@@ -9,8 +9,13 @@ class SaccoMemberProfile(db.Model):
     # Foreign Key uniqueness enforces a one to one relationshi
     user_id = Column(Integer,ForeignKey("users.id"), unique=True, nullable=False)
     member_no = db.Column(db.String(50), unique=True, nullable=False)
-    joining_date = db.Column(db.DateTime, default=datetime.utcnow)
+    joining_date = db.Column(
+        db.DateTime, 
+        #Storing date in a readable format
+        default=datetime.now().strftime("%Y-%m-%d")
+        )
     # savings_balance = db.Column(db.Float, default=0.0)
 
     #Define Relationships
-    user=relationship('User', back_populates="sacco_member_profile",secondary="users",uselist=False)
+    user=relationship('User', back_populates="sacco_member_profile",uselist=False)
+

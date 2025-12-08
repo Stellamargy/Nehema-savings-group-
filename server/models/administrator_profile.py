@@ -10,5 +10,5 @@ class AdministratorProfile(db.Model):
     user_id = Column(db.Integer, ForeignKey("users.id"), unique=True, nullable=False)
     staff_number = db.Column(db.String(50), unique=True, nullable=False)
     #relationship 
-    user = relationship("User", back_populates="administrator_profile",secondary="users",uselist=False)
+    user = relationship("User", back_populates="administrator_profile",uselist=False)
     
