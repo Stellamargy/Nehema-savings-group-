@@ -1,5 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from ..models import User, db
+# from ..models import User, db
+from server.models import User,db
 from marshmallow import fields, ValidationError, validate, validates
 import re
 

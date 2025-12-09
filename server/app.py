@@ -1,6 +1,8 @@
 from flask import Flask
-from .config import Config
-from .models import db ,migrate
+# from .config import Config
+from server.config import Config
+# from .models import db ,migrate
+from server.models import db , migrate
 
 
 #create flask app instance

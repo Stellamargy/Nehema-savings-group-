@@ -1,5 +1,6 @@
 #Seed data for testing 
-from .app import app
+# from .app import app
+from server.app import app
 from server.models import db ,Role,Permission,role_permissions
 def get_or_create(model, **kwargs):
     instance = model.query.filter_by(**kwargs).first()

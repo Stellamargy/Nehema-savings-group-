@@ -1,4 +1,5 @@
-from .database_extensions import db
+# from .database_extensions import db
+from server.models.database_extensions import db
 from sqlalchemy import Column , Integer ,String,Boolean
 from sqlalchemy.orm import relationship
 

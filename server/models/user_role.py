@@ -1,4 +1,5 @@
-from .database_extensions import db 
+# from .database_extensions import db 
+from server.models.database_extensions import db
 user_roles=db.Table(
     "user_roles",
     db.Column("user_id",db.Integer,db.ForeignKey("users.id"),primary_key=True),

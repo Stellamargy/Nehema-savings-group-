@@ -1,6 +1,5 @@
-from .database_extensions import db
-# from .role import Role
-# from .permission import Permission
+# from .database_extensions import db
+from server.models.database_extensions import db
 role_permissions=db.Table(
     "role_permissions",#table name manually , no class mapping
     #column name , column data type , constraints
