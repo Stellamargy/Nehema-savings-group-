@@ -1,6 +1,6 @@
 from sqlalchemy import Column,Integer,String,Text
 # from .database_extensions import db
-from serer.models.database_extensions import db
+from server.models.database_extensions import db
 from sqlalchemy.orm import relationship
 class Permission(db.Model):
     __tablename__="permissions"
