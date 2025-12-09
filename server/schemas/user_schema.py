@@ -25,7 +25,7 @@ class UserSchema(SQLAlchemyAutoSchema):
     PHONE_REGEX = re.compile(r'^(?:\+?254|0)(7\d{8}|1\d{8})$')
     PASSWORD_REGEX = re.compile(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{6,15}$')
 
-    @staticmethod
+    @staticmethod 
     def is_phone_valid(number):
         return bool(UserSchema.PHONE_REGEX.match(number))
 
@@ -68,17 +68,3 @@ class UserSchema(SQLAlchemyAutoSchema):
  
     
 
-valid_data = {
-    "first_name": "Stella",
-    "last_name": "Margy",
-    "email": "stella.margy@example.com",
-    "phone": "7712345678",
-    "id_number": "12345678",
-    "password": "trongss1",
-    "active": False
-}
-
-from ..app import app
-with app.app_context():
-    user_schema=UserSchema().load(valid_data)
-    print(user_schema)
