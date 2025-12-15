@@ -18,4 +18,10 @@ class Role(db.Model):
         secondary="role_permissions",
         
         )
+    users = relationship(
+    "User",
+    secondary="user_roles",
+    back_populates="roles",
+    )
+
 

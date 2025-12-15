@@ -12,7 +12,7 @@ class User(db.Model):
     email = Column(String(50), unique=True, nullable=False)
     phone = Column(String(13), unique=True, nullable=False)
     id_number=Column(String(14),unique=True,nullable=False)
-    password = Column(String(15), nullable=False)
+    password = Column(String(), nullable=False)
     active=Column(Boolean,nullable=False,default=False)
 
      #Define Relationships
@@ -31,6 +31,14 @@ class User(db.Model):
         uselist=False,
         cascade="all, delete-orphan"
         )
+
+    roles = relationship(
+    "Role",
+    secondary="user_roles",
+    back_populates="users",
+    )
+
+    
     def __str__(self):
         return (
         f"User({{"

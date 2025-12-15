@@ -1,5 +1,4 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-# from ..models import User, db
 from server.models import User,db
 from marshmallow import fields, ValidationError, validate, validates
 import re
@@ -9,8 +8,8 @@ class UserSchema(SQLAlchemyAutoSchema):
 
     class Meta:
         model = User
-        load_instance = True
-        include_relationships = True
+        # load_instance = True
+        # include_relationships = True
         sqla_session = db.session
 
     # Field validation
@@ -34,28 +33,28 @@ class UserSchema(SQLAlchemyAutoSchema):
     def is_password_strong(password):
         return bool(UserSchema.PASSWORD_REGEX.match(password))
 
-    @validates("email")
-    def unique_email(self, value,**kwargs):
-        email = User.query.filter_by(email=value).first()
-        if email:
-            raise ValidationError("Email already exists")
+    # @validates("email")
+    # def unique_email(self, value,**kwargs):
+    #     email = User.query.filter_by(email=value).first()
+    #     if email:
+    #         raise ValidationError("Email already exists")
 
     @validates("phone")
     def validate_phone(self, value,**kwargs):
         # Uniqueness
-        existing = User.query.filter_by(phone=value).first()
-        if existing:
-            raise ValidationError("Phone number already exists")
+        # existing = User.query.filter_by(phone=value).first()
+        # if existing:
+        #     raise ValidationError("Phone number already exists")
 
         # Format
         if not self.is_phone_valid(value):
             raise ValidationError("Phone number should be a valid Kenyan phone number")
 
-    @validates("id_number")
-    def unique_id_number(self, value,**kwargs):
-        existing = User.query.filter_by(id_number=value).first()
-        if existing:
-            raise ValidationError("ID number already exists")
+    # @validates("id_number")
+    # def unique_id_number(self, value,**kwargs):
+    #     existing = User.query.filter_by(id_number=value).first()
+    #     if existing:
+    #         raise ValidationError("ID number already exists")
 
     @validates("password")
     def validate_password(self, value,**kwargs):
