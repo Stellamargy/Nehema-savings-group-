@@ -18,6 +18,7 @@ class SaccoMemberProfile(db.Model):
 
     #Define Relationships
     user=relationship('User', back_populates="sacco_member_profile",uselist=False)
+    ledger_accounts=relationship("LedgerAccount" , back_populates="sacco_member")
 
 
     
