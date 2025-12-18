@@ -6,8 +6,6 @@ class SaccoMemberOnboarding():
         profile=SaccoMemberProfile(user_id=id)
         return profile
 
-
-
     @classmethod
     def create_sacco_member (cls,member_data):
         
@@ -19,8 +17,8 @@ class SaccoMemberOnboarding():
 
         #assign sacco member role 
         sacco_member_role=Role.query.filter_by(name="Sacco-Member").one_or_none()
-        if role:
-            user.roles.append[sacco_member_role]
+        if sacco_member_role:
+            user.roles.append(sacco_member_role)
         
 
         #add to the database 

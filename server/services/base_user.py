@@ -1,4 +1,4 @@
-from server.models import User
+from server.models import User ,db
 from server.utils import ConflictError
 class BaseUser():
     
@@ -32,6 +32,7 @@ class BaseUser():
     
     @classmethod
     def create_user(cls,data):
+        #Business rule - a user can only have one account .
         #Check if a user is unique before creating one 
         #email
         if not cls.is_email_unique(data["email"]):

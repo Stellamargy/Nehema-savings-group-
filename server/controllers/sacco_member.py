@@ -24,6 +24,8 @@ def add_sacco_member():
         #Go to the sacco member service .
         sacco_member_user=SaccoMemberOnboarding.create_sacco_member(user_obj)
 
+        serialized_user = user_schema.dump(sacco_member_user)
+
     except BadRequest:
          return jsonify({"error": "Invalid JSON"}), 400
 
@@ -35,10 +37,10 @@ def add_sacco_member():
         }),422
     except ConflictError as error:
         return jsonify({
-            "message":error
+            "status":"error",
+            "message":str(error)
         }),409
 
-    serialized_user = user_schema.dump(sacco_member_user)
 
     return jsonify({
         "data":serialized_user,

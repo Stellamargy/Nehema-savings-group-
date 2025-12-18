@@ -3,7 +3,7 @@ from server.models import User,db
 from marshmallow import fields, ValidationError, validate, validates
 import re
 
-
+#Schema is used for shape and format 
 class UserSchema(SQLAlchemyAutoSchema):
 
     class Meta:
@@ -13,8 +13,8 @@ class UserSchema(SQLAlchemyAutoSchema):
         sqla_session = db.session
 
     # Field validation
-    first_name = fields.String(required=True, validate=validate.Length(min=3, max=50))
-    last_name = fields.String(required=True, validate=validate.Length(min=3, max=50))
+    first_name = fields.String(required=True, validate=validate.Length(min=2, max=50))
+    last_name = fields.String(required=True, validate=validate.Length(min=2, max=50))
     email = fields.Email(required=True, validate=validate.Length(min=10, max=50))
     phone = fields.String(required=True)
     id_number = fields.String(required=True, validate=validate.Length(min=8, max=14))
