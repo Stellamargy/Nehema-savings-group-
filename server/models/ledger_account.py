@@ -3,8 +3,8 @@ from sqlalchemy import CheckConstraint
 import enum
 class LedgerOwnerType(enum.Enum):
     MEMBER="MEMBER"
-    ORG="ORGANISATION"
-class LedgerAccountType():
+    ORG="ORG"
+class LedgerAccountType(enum.Enum):
     SAVINGS="SAVINGS"
     #I can add other types later
 
@@ -51,7 +51,7 @@ class LedgerAccount (db.Model):
     __table_args__ = (
         CheckConstraint(
             "(owner_type = 'MEMBER' AND member_id IS NOT NULL) "
-            "OR (owner_type = 'ORGANISATION' AND member_id IS NULL)",
+            "OR (owner_type = 'ORG' AND member_id IS NULL)",
             name="ck_ledger_owner"
         ),
     )
