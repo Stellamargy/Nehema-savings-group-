@@ -13,13 +13,13 @@ def get_or_create(model, **kwargs):
     
 def seed():
     # --- Roles ---
-    admin, _ = get_or_create(Role, name="Administrator")
-    sacco_member, _ = get_or_create(Role, name="Sacco-Member")
+    admin, _ = get_or_create(Role, name="ADMIN")
+    sacco_member, _ = get_or_create(Role, name="MEMBER")
 
     # --- Permissions ---
     create_member_perm, _ = get_or_create(
         Permission,
-        code="CREATE_SACCO_MEMBER",
+        code="CREATE_MEMBER",
         description="Add Sacco Members to the System"
     )
 
@@ -30,8 +30,27 @@ def seed():
     db.session.commit()
     print("Seeding complete!")
 
+from sqlalchemy import text
+
+def reset_data():
+    db.session.execute(text("""
+        TRUNCATE TABLE
+            roles, 
+            permissions,
+            role_permissions,             
+            users,
+            sacco_member_profiles,
+            administrator_profiles,
+            user_roles,
+            ledger_accounts
+            
+        RESTART IDENTITY CASCADE;
+    """))
+    db.session.commit()
+    print("Resetting complete")
 
 
 with app.app_context():
     seed()
+    # reset_data()
 

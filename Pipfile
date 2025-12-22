@@ -11,6 +11,7 @@ psycopg2-binary = "*"
 flask-migrate = "*"
 marshmallow = "*"
 marshmallow-sqlalchemy = "*"
+flask-mail = "*"
 
 [dev-packages]
 

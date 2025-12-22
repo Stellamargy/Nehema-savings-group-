@@ -12,7 +12,8 @@ class LedgerAccount (db.Model):
     __tablename__ = "ledger_accounts"
 
     id = db.Column(db.Integer, primary_key=True)
-
+    #name
+    # name=db.Column(db.String,nullable=False)
     # Ownership
     owner_type = db.Column(
         db.Enum(LedgerOwnerType),

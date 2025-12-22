@@ -1,10 +1,8 @@
 from flask import Flask
-# from .config import Config
 from server.config import Config
-# from .models import db ,migrate
 from server.models import db , migrate
 from server.controllers import sacco_member_bp
-
+from server.extensions import mail
 
 #create flask app instance
 app=Flask(__name__)
@@ -16,6 +14,8 @@ app.config.from_object(Config)
 db.init_app(app)
 #intergrate migrate with app and db
 migrate.init_app(db=db,app=app)
+#intergrate mail with app
+mail.init_app(app)
 
 #Register blueprints
 app.register_blueprint(sacco_member_bp)

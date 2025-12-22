@@ -32,6 +32,7 @@ def add_sacco_member():
     except ValidationError as error:
         
         return jsonify({
+            "status":"Failed",
             "message":"Invalid data",
             "error":error.messages
         }),422
