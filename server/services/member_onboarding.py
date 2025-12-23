@@ -49,11 +49,11 @@ class MemberOnboarding:
             
             # Create temporary password
             temporary_password = cls.generate_temporary_passwd()
-            member_data["_password_hash"] = temporary_password
+            # member_data["_password_hash"] = temporary_password
             
             # Create user instance
             user = BaseUser.create_user(member_data)
-            
+            user.password_hash=temporary_password
             # Create member profile for the user
             profile = cls.create_member_profile(user.id)
             
