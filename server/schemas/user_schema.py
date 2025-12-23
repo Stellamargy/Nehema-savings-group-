@@ -18,27 +18,35 @@ class UserSchema(SQLAlchemyAutoSchema):
     email = fields.Email(required=True, validate=validate.Length(min=10, max=50))
     phone = fields.String(required=True)
     id_number = fields.String(required=True, validate=validate.Length(min=8, max=14))
-    password = fields.String(required=True, validate=validate.Length(min=6, max=15))
-    active = fields.Boolean(load_default=False)
+    #Since Autoschema validates field presence , I will overide it - password is not required
+    #Password creation is a backend responsibility during user creation 
+    _password_hash = fields.String(required=False)
+    active = fields.Boolean(load_default="inactive")
 
     # Precompiled regex patterns
     PHONE_REGEX = re.compile(r'^(?:\+?254|0)(7\d{8}|1\d{8})$')
-    PASSWORD_REGEX = re.compile(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{6,15}$')
+    
 
     @staticmethod 
     def is_phone_valid(number):
         return bool(UserSchema.PHONE_REGEX.match(number))
 
-    @staticmethod
-    def is_password_strong(password):
-        return bool(UserSchema.PASSWORD_REGEX.match(password))
+    #I will use this at changing password feature .
 
-    # @validates("email")
-    # def unique_email(self, value,**kwargs):
-    #     email = User.query.filter_by(email=value).first()
-    #     if email:
-    #         raise ValidationError("Email already exists")
+    # PASSWORD_REGEX = re.compile(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{6,15}$')
+    # @staticmethod
+    # def is_password_strong(password):
+    #     return bool(UserSchema.PASSWORD_REGEX.match(password))
 
+    # @validates("password")
+    # def validate_password(self, value,**kwargs):
+    #     if not self.is_password_strong(value):
+    #         raise ValidationError(
+    #             "Password must be 6–15 characters and include at least one uppercase letter, "
+    #             "one lowercase letter, one digit, and one special character."
+    #         )
+
+   
     @validates("phone")
     def validate_phone(self, value,**kwargs):
         # Uniqueness
@@ -56,13 +64,7 @@ class UserSchema(SQLAlchemyAutoSchema):
     #     if existing:
     #         raise ValidationError("ID number already exists")
 
-    @validates("password")
-    def validate_password(self, value,**kwargs):
-        if not self.is_password_strong(value):
-            raise ValidationError(
-                "Password must be 6–15 characters and include at least one uppercase letter, "
-                "one lowercase letter, one digit, and one special character."
-            )
+  
 
 
  

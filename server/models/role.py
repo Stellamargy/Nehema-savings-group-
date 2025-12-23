@@ -1,17 +1,25 @@
 # from .database_extensions import db
 from server.models.database_extensions import db
-from sqlalchemy import Column,Integer,String,Text
+from sqlalchemy import Column,Integer,String,Text,Enum,CheckConstraint
 from sqlalchemy.orm import relationship
 
+
 class Role(db.Model):
+    # Table name
     __tablename__="roles"
-    #data type , constraints
+    #Table columns and role instance attributes
     id=Column(Integer,primary_key=True)
-    name=Column(String,nullable=False)
+    name=Column(String,nullable=False,unique=True)
     description=Column(Text)
 
+    __table_args__ = (
+        CheckConstraint(
+            "name IN ('admin', 'member')",
+            name="check_role_name"
+        ),
+    )
+
     # define pythonic relationships
-    #name of the model , back_populates ,
     permissions=relationship(
         "Permission",
         back_populates="roles",

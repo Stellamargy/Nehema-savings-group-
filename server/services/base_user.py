@@ -1,6 +1,6 @@
 from server.models import User ,db
 from server.utils import ConflictError
-class BaseUser():
+class BaseUser:
     
     # uniqueness
     #check if email is unique
@@ -30,23 +30,23 @@ class BaseUser():
         else:
             return True
     
-    @classmethod
-    def create_user(cls,data):
-        #Business rule - a user can only have one account .
-        #Check if a user is unique before creating one 
-        #email
-        if not cls.is_email_unique(data["email"]):
-            raise ConflictError("Email already exist")
-        #phone number
-        if not cls.is_phone_unique(data["phone"]):
-            raise ConflictError("Phone number already exist")
-        # id number 
-        if not cls.is_id_number_unique(data["id_number"]):
-            raise ConflictError("ID number already exist")
-        #create user
+    @staticmethod
+    def create_user(data):
         user=User(**data)
         db.session.add(user)
         db.session.flush() # do not commit first - get the id of user 
         return user 
 
-        
+
+    
+
+
+# test_user_data = {
+#     "first_name": "Stella",
+#     "last_name": "Mwangi",
+#     "email": "stella@example.com",
+#     "phone": "+254712345678",
+#     "id_number": "12345678",
+#     "password_hash": "hashed_password_here",
+#     "active": "inactive"
+# }

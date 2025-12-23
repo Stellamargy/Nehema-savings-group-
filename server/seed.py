@@ -13,14 +13,14 @@ def get_or_create(model, **kwargs):
     
 def seed():
     # --- Roles ---
-    admin, _ = get_or_create(Role, name="ADMIN")
-    sacco_member, _ = get_or_create(Role, name="MEMBER")
+    admin, _ = get_or_create(Role, name="admin")
+    sacco_member, _ = get_or_create(Role, name="member")
 
     # --- Permissions ---
     create_member_perm, _ = get_or_create(
         Permission,
         code="CREATE_MEMBER",
-        description="Add Sacco Members to the System"
+        description="Onboards members "
     )
 
     # --- Associations ---

@@ -1,5 +1,5 @@
 from server.models import LedgerAccount,LedgerAccountType,LedgerOwnerType,db
-class LedgerManagement():
+class LedgerManager():
     @classmethod
     def create_primary_acc(cls,member_id_no):
         primary_acc=LedgerAccount(

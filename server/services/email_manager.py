@@ -29,6 +29,8 @@ class EmailManager:
         
         return acc_setup_email
 
+    
+
     @staticmethod
     def create_account_setup_email(user_email, first_name, temporary_password):
         """

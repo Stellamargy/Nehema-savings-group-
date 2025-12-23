@@ -4,8 +4,10 @@ from sqlalchemy import Column , Integer ,String , ForeignKey,event
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
-class SaccoMemberProfile(db.Model):
-    __tablename__ = "sacco_member_profiles"
+class Member(db.Model):
+    #table name
+    __tablename__ = "members"
+    #table columns and member instance attributes 
     id = Column(Integer, primary_key=True)
     # Foreign Key uniqueness enforces a one to one relationship
     user_id = Column(Integer,ForeignKey("users.id"), unique=True, nullable=False)
@@ -16,16 +18,16 @@ class SaccoMemberProfile(db.Model):
         )
     
 
-    #Define Relationships
-    user=relationship('User', back_populates="sacco_member_profile",uselist=False)
-    ledger_accounts=relationship("LedgerAccount" , back_populates="sacco_member")
+    #Define Pythonic Relationships
+    user=relationship('User', back_populates="member",uselist=False)
+    ledger_accounts=relationship("LedgerAccount" , back_populates="member")
 
 
     
-@event.listens_for(SaccoMemberProfile, "before_insert")
+@event.listens_for(Member, "before_insert")
 def generate_member_no(mapper, connection, target):
     last_number = connection.execute(
-        db.text("SELECT member_no FROM sacco_member_profiles ORDER BY id DESC LIMIT 1")
+        db.text("SELECT member_no FROM members ORDER BY id DESC LIMIT 1")
     ).fetchone()
 
     if last_number is None:

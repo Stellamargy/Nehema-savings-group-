@@ -1,7 +1,7 @@
 from flask import Flask
 from server.config import Config
 from server.models import db , migrate
-from server.controllers import sacco_member_bp
+from server.controllers import member_bp
 from server.extensions import mail
 
 #create flask app instance
@@ -18,7 +18,7 @@ migrate.init_app(db=db,app=app)
 mail.init_app(app)
 
 #Register blueprints
-app.register_blueprint(sacco_member_bp)
+app.register_blueprint(member_bp)
 
 # Run flask app 
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-# from .database_extensions import db 
 from server.models.database_extensions import db
 user_roles=db.Table(
     "user_roles",
